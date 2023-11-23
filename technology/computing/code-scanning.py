@@ -21,7 +21,6 @@
 import pygame
 import time
 import cv2
-import numpy as np
 
 # Initialize pygame
 pygame.init()
