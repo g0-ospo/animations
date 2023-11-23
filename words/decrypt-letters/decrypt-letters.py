@@ -16,9 +16,10 @@ Arguments:
     font_size: The size of the font to use.
     width: The width of the animation.
     height: The height of the animation.
+    output_format: The output format (gif or mpeg).
 
 Example:
-    python decrypt-letters.py HELLO 2 Arial 12 800 600
+    python decrypt-letters.py HELLO 2 Arial 12 800 600 gif
 
 
 License:
@@ -77,12 +78,12 @@ def animate_word(target_word, letters_to_solve, font_name, font_size, width, hei
 
     surface = pygame.Surface((width, height), pygame.SRCALPHA)  # Create a transparent surface
 
-    frames_save_folder = f'crypto-animate-{target_word}-{font_name}-{font_size}-{width}x{height}'
-    os.makedirs(frames_save_folder, exist_ok=True)
+    #frames_save_folder = f'crypto-animate-{target_word}-{font_name}-{font_size}-{width}x{height}'
+    #os.makedirs(frames_save_folder, exist_ok=True)
     # check the directory is empty, if so delete any files in there
-    if not os.listdir(frames_save_folder) == []:
-        for file in os.listdir(frames_save_folder):
-            os.remove(os.path.join(frames_save_folder, file))
+    #if not os.listdir(frames_save_folder) == []:
+    #    for file in os.listdir(frames_save_folder):
+    #        os.remove(os.path.join(frames_save_folder, file))
 
 
     # Main loop
@@ -116,6 +117,10 @@ def animate_word(target_word, letters_to_solve, font_name, font_size, width, hei
         alpha_array = pygame.surfarray.array_alpha(surface)
         frame = np.dstack((rgb_array, alpha_array))  # Combine the RGB and alpha channels
         frame = np.flip(frame, 0)  # Flip the y-axis
+        # rotate the image 90 degrees anti- clockwise
+        frame = np.rot90(frame)
+        frame = np.rot90(frame)
+        frame = np.rot90(frame)
         frames.append(frame)
 
         # Check if we should stop animating certain letters
@@ -128,39 +133,17 @@ def animate_word(target_word, letters_to_solve, font_name, font_size, width, hei
         
         time.sleep(0.05)  # Controls the speed of the animation
 
-        pygame.image.save(surface, f'{frames_save_folder}/{len(frames):04d}.png')
+        #pygame.image.save(surface, f'{frames_save_folder}/{len(frames):04d}.png')
 
 
     # Keep the final word on screen for a short time
     time.sleep(2)
     pygame.quit()
 
-    # Save the animation as a GIF
-    #imageio.mimsave(f'crypto-animate-{target_word}-{font_name}-{font_size}-{width}x{height}.gif', frames, fps=30)
 
-    # Get a list of files in the directory
-    file_names = os.listdir(frames_save_folder)
-
-    # Prepend the directory name to each file name
-    file_paths = [os.path.join(frames_save_folder, file_name) for file_name in file_names]
-
-    # Read the files and save them as a GIF
-    #imageio.mimsave(f'crypto-animate-{target_word}-{font_name}-{font_size}-{width}x{height}.gif', [imageio.imread(file_path) for file_path in file_paths], fps=30)
+    return frames
 
 
-    # Read the files
-    images = [Image.open(file_path) for file_path in file_paths]
-
-    # Save the images as a GIF
-    images[0].save(
-        f'crypto-animate-{target_word}-{font_name}-{font_size}-{width}x{height}.gif',
-        save_all=True,
-        append_images=images[1:],
-        duration=int(1000 / frame_rate),
-        disposal=2,
-        transparency=0,
-        optimize=False
-    )
 
 
 if __name__ == '__main__':
@@ -172,10 +155,34 @@ if __name__ == '__main__':
     parser.add_argument("font_size", type=int, help="the size of the font to use")
     parser.add_argument("width", type=int, help="the width of the animation")
     parser.add_argument("height", type=int, help="the height of the animation")
+    parser.add_argument("format", help="the output format (gif or mpeg)")
     args = parser.parse_args()
 
 
     # The target word to animate to
     target_word = args.word.upper()
     letters_to_solve = args.letters_to_solve
-    animate_word(target_word, letters_to_solve, font_name=args.font_name, font_size=args.font_size, width=args.width, height=args.height )
+    frames = animate_word(target_word, letters_to_solve, font_name=args.font_name, font_size=args.font_size, width=args.width, height=args.height )
+
+    if args.format.lower() == 'gif':
+        # save the images as a GIF
+        frame_images = [Image.fromarray(frame) for frame in frames]
+        frame_images[0].save(
+            f'decrypt-letters-{target_word}-{args.font_name}-{args.font_size}-{args.width}x{args.height}.gif', 
+            save_all=True, 
+            append_images=frame_images[1:], 
+            duration=int(1000 / frame_rate), 
+            disposal=2, 
+            transparency=0, 
+            optimize=False
+        )   
+    elif args.format.lower() == 'mpeg':
+        # save the images as a MPEG
+        imageio.mimsave(
+            f'decrypt-letters-{target_word}-{args.font_name}-{args.font_size}-{args.width}x{args.height}.mp4', 
+            frames, 
+            fps=frame_rate
+        )
+    else:
+        print('Unknown format')
+        exit(1)
