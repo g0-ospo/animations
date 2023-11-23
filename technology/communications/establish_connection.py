@@ -19,7 +19,6 @@ License:
 
 import pygame
 import cv2
-import numpy as np
 
 # Initialize pygame
 pygame.init()

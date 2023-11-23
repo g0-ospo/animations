@@ -35,9 +35,7 @@ import time
 import argparse
 import imageio
 import numpy as np
-import os
 from PIL import Image
-from pygifsicle import optimize
 
 # Initialize pygame
 pygame.init()
