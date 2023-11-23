@@ -25,7 +25,7 @@ Windows> .\utils\session.bat
 
 Usage:
 
-python <animation>.py
+python [animation file name].py
 
 ## Contributing
 
