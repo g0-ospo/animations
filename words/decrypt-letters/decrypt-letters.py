@@ -1,3 +1,32 @@
+"""
+decrypt-letters.py
+
+Author: Niroshan Rajadurai (@niroshan)
+Repository: https://github.com/g0-ospo/animations
+
+This script is a command-line program used to animate the decryption of a word. It uses the Pygame library to create the animation.
+
+Usage:
+    python decrypt-letters.py <word> <letters_to_solve> <font_name> <font_size> <width> <height>
+
+Arguments:
+    word: The target word to animate to.
+    letters_to_solve: The number of letters to solve at a time.
+    font_name: The name of the font to use.
+    font_size: The size of the font to use.
+    width: The width of the animation.
+    height: The height of the animation.
+
+Example:
+    python decrypt-letters.py HELLO 2 Arial 12 800 600
+
+
+License:
+    This script is released under the MIT License. For more details, see the LICENSE file in the repository.
+
+"""
+
+
 import pygame
 import random
 import string
@@ -133,18 +162,20 @@ def animate_word(target_word, letters_to_solve, font_name, font_size, width, hei
         optimize=False
     )
 
-# Parse command line arguments
-parser = argparse.ArgumentParser()
-parser.add_argument("word", help="the target word to animate to")
-parser.add_argument("letters_to_solve", type=int, help="the number of letters to solve at a time")
-parser.add_argument("font_name", help="the name of the font to use")
-parser.add_argument("font_size", type=int, help="the size of the font to use")
-parser.add_argument("width", type=int, help="the width of the animation")
-parser.add_argument("height", type=int, help="the height of the animation")
-args = parser.parse_args()
+
+if __name__ == '__main__':
+    # Parse command line arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument("word", help="the target word to animate to")
+    parser.add_argument("letters_to_solve", type=int, help="the number of letters to solve at a time")
+    parser.add_argument("font_name", help="the name of the font to use")
+    parser.add_argument("font_size", type=int, help="the size of the font to use")
+    parser.add_argument("width", type=int, help="the width of the animation")
+    parser.add_argument("height", type=int, help="the height of the animation")
+    args = parser.parse_args()
 
 
-# The target word to animate to
-target_word = args.word.upper()
-letters_to_solve = args.letters_to_solve
-animate_word(target_word, letters_to_solve, font_name=args.font_name, font_size=args.font_size, width=args.width, height=args.height )
+    # The target word to animate to
+    target_word = args.word.upper()
+    letters_to_solve = args.letters_to_solve
+    animate_word(target_word, letters_to_solve, font_name=args.font_name, font_size=args.font_size, width=args.width, height=args.height )

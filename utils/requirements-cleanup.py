@@ -22,7 +22,7 @@ with open(requirements_file, 'r') as file:
             requirements[package] = version
 
 with open(requirements_file, 'w') as file:
-    for package, version in sorted(requirements.items()):
+    for package, version in sorted(requirements.items(), key=lambda x: x[0].lower()):
         file.write(f'{package}=={version}\n')
 
 
