@@ -1,3 +1,22 @@
+"""
+
+establish_connection.py
+
+Author: Niroshan Rajadurai (@niroshan)
+Repository: https://github.com/g0-ospo/animations
+
+Description: 
+    This script is a command-line program used to animate the establishment of a connection. It uses the Pygame library to create the animation.
+
+Usage:
+    python establish_connection.py
+
+License:
+    This script is released under the MIT License. For more details, see the LICENSE file in the repository.
+
+
+"""
+
 import pygame
 import cv2
 import numpy as np

@@ -1,3 +1,22 @@
+"""
+   boot-sequence.py
+
+   Author: Niroshan Rajadurai (@niroshan)
+   Repository: https://www.github.com/g0-ospo/animations
+   Date: 2023-11-23
+
+    Description:
+        This script is a command-line program used to animate a boot sequence. It uses the Pygame library to create the animation.
+
+    Usage:
+        python boot-sequence.py
+
+    License:
+        This script is released under the MIT License. For more details, see the LICENSE file in the repository.
+
+
+"""
+
 import pygame
 import time
 import cv2

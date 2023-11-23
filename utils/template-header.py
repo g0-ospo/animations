@@ -3,6 +3,7 @@
 
 Author: Niroshan Rajadurai (@niroshan)
 Repository: https://github.com/g0-ospo/animations
+Date: [Date]
 
 Description: [Description of the script or source file]
 
